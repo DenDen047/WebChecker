@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
-import csv
 import hashlib
 import commands
 import pandas as pd
