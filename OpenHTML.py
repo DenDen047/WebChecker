@@ -7,11 +7,11 @@ import urllib2
 
 class AccessPage(object):
     """docstring for AccessPage"""
-    def __init__(self):
+    def __init__(self, url):
         super(AccessPage, self).__init__()
-        self.html = ''
+        self.html = self.getHTML(url)
 
-    def __call__(self, url):
+    def getHTML(self, url):
         try:
             # set user
             user_agent = 'Mozilla/5.0'
@@ -19,7 +19,6 @@ class AccessPage(object):
             req = urllib2.Request(url)
             req.add_header("User-agent", user_agent)
             # access page
-            html = urllib2.urlopen(req)
-            return html.read()
+            return urllib2.urlopen(req)
         except:
             raise

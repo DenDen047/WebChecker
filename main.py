@@ -4,6 +4,7 @@
 import hashlib
 import commands
 import pandas as pd
+from BeautifulSoup import BeautifulSoup
 
 from OpenHTML import AccessPage
 
@@ -23,7 +24,6 @@ def main():
     f = 'dataset.csv'
     df = file_read(f)
     # check web site
-    access = AccessPage()
     updateSites = []
     reg = []
 
@@ -36,8 +36,16 @@ def main():
             hash_ago = row[1]
         except:
             hash_ago = 0
-        hash_now = _toMD5(access(url))
-        if hash_now != hash_ago:
+        print url
+
+        # read html
+        x = AccessPage(url)
+        soup = BeautifulSoup(x.html)
+        soup = soup.body
+        html = soup.getText().encode('ascii', errors='backslashreplace')
+
+        hash_now = _toMD5(html)
+        if hash_now != hash_ago and hash_ago != 0:
             updateSites.append(url)
         reg.append([url, hash_now])
         df = pd.DataFrame(reg)
